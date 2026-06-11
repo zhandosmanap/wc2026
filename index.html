@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ЧМ 2026 — Офисный тотализатор</title>
+  <style>
+    :root {
+      --bg0: #04080f;
+      --bg1: #080f1c;
+      --bg2: #0d1626;
+      --bg3: #111f34;
+      --bg3h: #162540;
+      --gold: #c9a227;
+      --gold2: #f0c040;
+      --green: #22c55e;
+      --green-bg: rgba(34,197,94,.1);
+      --blue: #3b82f6;
+      --blue-bg: rgba(59,130,246,.12);
+      --red: #ef4444;
+      --border: #1a2e4a;
+      --border2: #243d5a;
+      --t1: #ffffff;
+      --t2: #7fa2c8;
+      --t3: #3a5878;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg0); color:var(--t1); min-height:100vh; }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(180deg,#091422 0%,var(--bg0) 100%);
+      border-bottom: 2px solid var(--gold);
+      padding: 28px 20px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content:'';
+      position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% -10%, rgba(201,162,39,.18) 0%, transparent 55%);
+      pointer-events:none;
+    }
+    .h-chip {
+      display:inline-flex; align-items:center; gap:6px;
+      background:linear-gradient(135deg,#c9a227,#f0c040,#c9a227);
+      color:#000; font-size:10px; font-weight:700;
+      letter-spacing:2.5px; text-transform:uppercase;
+      padding:4px 14px; border-radius:20px; margin-bottom:12px;
+    }
+    h1 {
+      font-size: clamp(26px,6vw,48px);
+      font-weight:800; letter-spacing:-1px;
+      background:linear-gradient(135deg,#c9a227,#f0c040,#e8b830);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
+      margin-bottom:6px;
+    }
+    .h-sub { color:var(--t2); font-size:13px; letter-spacing:.5px; }
+
+    /* ── NAV ── */
+    nav {
+      display:flex; justify-content:center; gap:8px; flex-wrap:wrap;
+      padding:14px 16px;
+      background:var(--bg1); border-bottom:1px solid var(--border);
+    }
+    .nav-btn {
+      background:transparent; border:1px solid var(--border2);
+      color:var(--t2); padding:8px 20px; border-radius:24px;
+      cursor:pointer; font-size:13px; font-weight:500;
+      transition:all .18s; white-space:nowrap;
+    }
+    .nav-btn:hover { border-color:var(--gold); color:var(--gold); }
+    .nav-btn.active {
+      background:linear-gradient(135deg,#c9a227,#f0c040);
+      border-color:transparent; color:#000; font-weight:700;
+    }
+
+    /* ── MAIN ── */
+    main { max-width:1280px; margin:0 auto; padding:24px 16px 48px; }
+    .section { display:none; }
+    .section.active { display:block; }
+
+    /* ── REFRESH ── */
+    .refresh-row { display:flex; align-items:center; gap:12px; margin-bottom:22px; flex-wrap:wrap; }
+    .refresh-btn {
+      display:inline-flex; align-items:center; gap:7px;
+      background:transparent; border:1px solid var(--gold);
+      color:var(--gold); padding:9px 18px; border-radius:8px;
+      cursor:pointer; font-size:13px; font-weight:600;
+      transition:all .18s;
+    }
+    .refresh-btn:hover { background:var(--gold); color:#000; }
+    .refresh-btn svg { width:15px; height:15px; transition:transform .4s; }
+    .refresh-btn.spinning svg { transform:rotate(360deg); }
+    .last-update { color:var(--t3); font-size:12px; }
+
+    /* ── SECTION TITLE ── */
+    .stitle {
+      font-size:17px; font-weight:700; margin-bottom:16px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .stitle::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* ── WINNER BANNER ── */
+    .win-banner {
+      background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(34,197,94,.04));
+      border:1px solid var(--green);
+      border-radius:14px; padding:20px 24px;
+      text-align:center; margin-bottom:24px;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { box-shadow:0 0 10px rgba(34,197,94,.2); }
+      to   { box-shadow:0 0 26px rgba(34,197,94,.45); }
+    }
+    .win-banner h2 { color:var(--green); font-size:20px; margin-bottom:6px; }
+    .win-banner p  { color:var(--t2); font-size:14px; }
+
+    /* ── LEADERBOARD ── */
+    .lb-list { display:flex; flex-direction:column; gap:8px; margin-bottom:32px; }
+    .lb-item {
+      display:flex; align-items:center; gap:12px;
+      background:var(--bg3); border:1px solid var(--border);
+      border-radius:12px; padding:12px 16px;
+      transition:all .18s; cursor:default;
+    }
+    .lb-item:hover { border-color:var(--border2); background:var(--bg3h); }
+    .lb-item.r1 { border-color:#c9a227; background:rgba(201,162,39,.07); }
+    .lb-item.r2 { border-color:#9e9e9e; background:rgba(158,158,158,.05); }
+    .lb-item.r3 { border-color:#cd7f32; background:rgba(205,127,50,.05); }
+    .lb-item.champ { border-color:var(--green); background:var(--green-bg); }
+
+    .rank-badge {
+      width:34px; height:34px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:800; font-size:14px; flex-shrink:0;
+    }
+    .r1 .rank-badge { background:linear-gradient(135deg,#c9a227,#f0c040); color:#000; }
+    .r2 .rank-badge { background:#9e9e9e; color:#000; }
+    .r3 .rank-badge { background:#cd7f32; color:#fff; }
+    .rank-badge.def { background:var(--border); color:var(--t3); }
+
+    .lb-flag  { font-size:22px; }
+    .lb-name  { font-weight:600; font-size:15px; }
+    .lb-sub   { color:var(--t2); font-size:12px; margin-top:2px; }
+    .lb-right { margin-left:auto; display:flex; align-items:center; gap:8px; }
+
+    .pts-pill {
+      background:var(--bg2); border:1px solid var(--border2);
+      padding:4px 13px; border-radius:20px;
+      font-weight:700; font-size:13px;
+    }
+    .champ .pts-pill { background:rgba(34,197,94,.15); border-color:var(--green); color:var(--green); }
+
+    .status-dot {
+      width:8px; height:8px; border-radius:50%; flex-shrink:0;
+    }
+    .dot-win   { background:var(--green); box-shadow:0 0 6px var(--green); }
+    .dot-adv   { background:var(--blue); }
+    .dot-lead  { background:var(--gold); }
+    .dot-none  { background:var(--border2); }
+
+    /* ── BETS GRID ── */
+    .bets-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+      gap:10px; margin-bottom:32px;
+    }
+    .bet-card {
+      background:var(--bg3); border:1px solid var(--border);
+      border-radius:12px; padding:14px 15px;
+      display:flex; align-items:center; gap:11px;
+      transition:all .18s;
+    }
+    .bet-card:hover { border-color:var(--border2); }
+    .bet-card.correct { border-color:var(--green); background:var(--green-bg); }
+    .bet-flag { font-size:26px; }
+    .bet-name { font-weight:600; font-size:14px; }
+    .bet-team { color:var(--t2); font-size:12px; margin-top:3px; }
+    .bet-card.correct .bet-team { color:var(--green); }
+    .bet-pts  { margin-left:auto; font-weight:700; font-size:13px; color:var(--gold2); }
+
+    /* groups section subtitle */
+    .groups-note { color:var(--t2); font-size:12px; margin-bottom:16px; }
+    .groups-note span { color:var(--blue); font-weight:600; }
+    .groups-note b { color:var(--gold); font-weight:600; }
+
+    /* ── GROUPS GRID ── */
+    .groups-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+      gap:14px;
+    }
+    .grp-card { background:var(--bg3); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+    .grp-head {
+      background:linear-gradient(135deg,#0a1525,#102040);
+      border-bottom:1px solid var(--border);
+      padding:11px 15px; display:flex; align-items:center; gap:10px;
+    }
+    .grp-letter {
+      background:linear-gradient(135deg,#c9a227,#f0c040);
+      color:#000; width:30px; height:30px; border-radius:7px;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:800; font-size:15px; flex-shrink:0;
+    }
+    .grp-title { font-weight:700; font-size:14px; }
+
+    .grp-table { width:100%; border-collapse:collapse; }
+    .grp-table th {
+      font-size:10px; font-weight:600; letter-spacing:1.2px;
+      color:var(--t3); text-transform:uppercase;
+      padding:7px 10px; text-align:center;
+      border-bottom:1px solid var(--border);
+    }
+    .grp-table th:first-child { text-align:left; padding-left:13px; }
+    .grp-table td {
+      padding:9px 10px; text-align:center;
+      font-size:12px; border-bottom:1px solid rgba(26,46,74,.5);
+    }
+    .grp-table td:first-child { text-align:left; padding-left:13px; }
+    .grp-table tr:last-child td { border-bottom:none; }
+    .grp-table tr.adv td { background:rgba(59,130,246,.09); }
+    .grp-table tr.adv:first-child td { background:rgba(59,130,246,.16); }
+
+    .team-cell { display:flex; align-items:center; gap:7px; }
+    .adv-dot { width:5px; height:5px; border-radius:50%; background:var(--blue); flex-shrink:0; }
+    .no-dot  { width:5px; flex-shrink:0; }
+    .t-flag  { font-size:16px; }
+    .t-name  { font-size:13px; font-weight:500; }
+    .t-name.hot { color:var(--gold2); font-weight:700; }
+    .pts-td  { font-weight:700; color:var(--gold2); }
+
+    /* ── LOADING / ERROR ── */
+    .msg { text-align:center; padding:44px; color:var(--t3); font-size:14px; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:580px){
+      .groups-grid { grid-template-columns:1fr; }
+      .bets-grid   { grid-template-columns:1fr 1fr; }
+      h1 { font-size:26px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="h-chip">⚽ Офисный тотализатор</div>
+  <h1>Чемпионат Мира 2026</h1>
+  <p class="h-sub">USA · Canada · Mexico &nbsp;·&nbsp; 11 июня — 19 июля 2026</p>
+</header>
+
+<nav>
+  <button class="nav-btn active" data-section="leaderboard">🏆 Лидерборд</button>
+  <button class="nav-btn"        data-section="bets">🎯 Ставки</button>
+  <button class="nav-btn"        data-section="groups">📊 Группы</button>
+</nav>
+
+<main>
+
+  <!-- LEADERBOARD -->
+  <section id="leaderboard" class="section active">
+    <div class="refresh-row">
+      <button class="refresh-btn" id="refreshBtn" onclick="loadData()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+        </svg>
+        Обновить данные
+      </button>
+      <span class="last-update" id="lastUpdate"></span>
+    </div>
+    <div id="winBanner"></div>
+    <div class="stitle">🏆 Таблица лидеров</div>
+    <div class="lb-list msg" id="lbList">Загрузка…</div>
+  </section>
+
+  <!-- BETS -->
+  <section id="bets" class="section">
+    <div class="refresh-row">
+      <button class="refresh-btn" onclick="loadData()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+        </svg>
+        Обновить
+      </button>
+    </div>
+    <div class="stitle">🎯 Ставки коллег</div>
+    <div class="bets-grid msg" id="betsGrid">Загрузка…</div>
+  </section>
+
+  <!-- GROUPS -->
+  <section id="groups" class="section">
+    <div class="refresh-row">
+      <button class="refresh-btn" onclick="loadData()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+        </svg>
+        Обновить
+      </button>
+    </div>
+    <div class="stitle">📊 Групповой этап</div>
+    <p class="groups-note">
+      <span>●</span> Синяя точка — выходят в плей-офф (топ-2) &nbsp;|&nbsp;
+      <b>Золотое имя</b> — команда, на которую сделана ставка
+    </p>
+    <div class="groups-grid msg" id="groupsGrid">Загрузка…</div>
+  </section>
+
+</main>
+
+<script>
+/* ────────────────── DATA ────────────────── */
+let B = null; // bets.json
+let T = null; // tournament.json
+
+const ISO = {
+  'USA':'us','Panama':'pa','Albania':'al','Ukraine':'ua',
+  'Mexico':'mx','Jamaica':'jm','South Korea':'kr','New Zealand':'nz',
+  'Canada':'ca','Honduras':'hn','Morocco':'ma','Ecuador':'ec',
+  'France':'fr','Uruguay':'uy','Peru':'pe','Cameroon':'cm',
+  'Spain':'es','Japan':'jp','Saudi Arabia':'sa','South Africa':'za',
+  'Brazil':'br','Costa Rica':'cr','Colombia':'co','DR Congo':'cd',
+  'Argentina':'ar','Chile':'cl','Bolivia':'bo','Kenya':'ke',
+  'Portugal':'pt','Croatia':'hr','Turkey':'tr','Haiti':'ht',
+  'England':'gb','Serbia':'rs','Tunisia':'tn','Guatemala':'gt',
+  'Netherlands':'nl','Poland':'pl','Iran':'ir','Venezuela':'ve',
+  'Switzerland':'ch','Denmark':'dk','Ivory Coast':'ci','Philippines':'ph',
+  'Germany':'de','Belgium':'be','Austria':'at','Senegal':'sn'
+};
+const f = n => {
+  const code = ISO[n];
+  if (!code) return '<span style="font-size:18px">🏳️</span>';
+  return `<img src="https://flagcdn.com/32x24/${code}.png" width="24" height="18" style="border-radius:2px;object-fit:cover;vertical-align:middle" alt="${n}" onerror="this.style.display='none'">`;
+};
+
+/* ────────────────── NAV ────────────────── */
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.section).classList.add('active');
+  });
+});
+
+/* ────────────────── LOAD ────────────────── */
+async function loadData() {
+  const btn = document.getElementById('refreshBtn');
+  btn.classList.add('spinning');
+  try {
+    const t = Date.now();
+    const [rb, rt] = await Promise.all([
+      fetch('bets.json?t=' + t),
+      fetch('tournament.json?t=' + t)
+    ]);
+    if (!rb.ok || !rt.ok) throw new Error('HTTP error');
+    B = await rb.json();
+    T = await rt.json();
+    render();
+    document.getElementById('lastUpdate').textContent =
+      'Обновлено: ' + new Date().toLocaleTimeString('ru-RU');
+  } catch(e) {
+    ['lbList','betsGrid','groupsGrid'].forEach(id => {
+      const el = document.getElementById(id);
+      el.className = 'msg';
+      el.textContent = '⚠️ Ошибка загрузки. Убедитесь, что сайт открыт с сервера (не как файл).';
+    });
+  } finally {
+    setTimeout(() => btn.classList.remove('spinning'), 400);
+  }
+}
+
+/* ────────────────── SCORING ────────────────── */
+function calcStatus(teamName) {
+  for (const [, grp] of Object.entries(T.groups)) {
+    const team = grp.teams.find(t => t.name === teamName);
+    if (!team) continue;
+    const played = team.w + team.d + team.l;
+    const sorted = [...grp.teams].sort((a, b) => {
+      if (b.points !== a.points) return b.points - a.points;
+      const gdB = b.gf - b.ga, gdA = a.gf - a.ga;
+      if (gdB !== gdA) return gdB - gdA;
+      return b.gf - a.gf;
+    });
+    const pos = sorted.findIndex(t => t.name === teamName); // 0-indexed
+    if (played === 3) {
+      if (pos === 0) return { pts: 3, label: '1-е место в группе', dot: 'dot-win' };
+      if (pos === 1) return { pts: 1, label: 'Вышел из группы',   dot: 'dot-adv' };
+      return { pts: 0, label: 'Вылетел в группе', dot: 'dot-none' };
+    }
+    if (played > 0) {
+      if (pos === 0) return { pts: 0, label: 'Лидирует в группе', dot: 'dot-lead' };
+      if (pos === 1) return { pts: 0, label: 'В топ-2 группы',    dot: 'dot-adv' };
+      return { pts: 0, label: 'В нижней части группы', dot: 'dot-none' };
+    }
+    return { pts: 0, label: 'Ещё не играл', dot: 'dot-none' };
+  }
+  return { pts: 0, label: '', dot: 'dot-none' };
+}
+
+/* ────────────────── RENDER ────────────────── */
+function render() {
+  if (!B || !T) return;
+  renderLeaderboard();
+  renderBets();
+  renderGroups();
+}
+
+/* — Leaderboard — */
+function renderLeaderboard() {
+  const winner = T.tournament_winner || null;
+
+  // Banner
+  const banner = document.getElementById('winBanner');
+  if (winner) {
+    const champs = B.participants.filter(p => p.bet === winner);
+    banner.innerHTML = champs.length
+      ? `<div class="win-banner">
+           <h2>🏆 Победитель ЧМ 2026: ${f(winner)} ${winner}</h2>
+           <p>Приз забирают: <strong>${champs.map(c=>c.name).join(', ')}</strong>
+              &nbsp;—&nbsp; делится на ${champs.length} ${champs.length===1?'человека':'человек'}</p>
+         </div>`
+      : '';
+  } else {
+    banner.innerHTML = '';
+  }
+
+  // Build list
+  const list = B.participants.map(p => {
+    const { pts, label, dot } = calcStatus(p.bet);
+    const isChamp = winner && p.bet === winner;
+    return { ...p, pts: isChamp ? pts + 100 : pts, rawPts: pts, label, dot, isChamp, flag: f(p.bet) };
+  });
+  list.sort((a, b) => {
+    if (b.isChamp !== a.isChamp) return b.isChamp ? 1 : -1;
+    return b.rawPts - a.rawPts;
+  });
+
+  const el = document.getElementById('lbList');
+  el.className = 'lb-list';
+  el.innerHTML = list.map((p, i) => {
+    const rank = i + 1;
+    const rc = rank===1?'r1':rank===2?'r2':rank===3?'r3':'';
+    const bc = rank<=3 ? '' : 'def';
+    return `
+      <div class="lb-item ${rc} ${p.isChamp?'champ':''}">
+        <div class="rank-badge ${bc}">${rank}</div>
+        <div class="lb-flag">${p.flag}</div>
+        <div style="flex:1;min-width:0">
+          <div class="lb-name">${p.name}</div>
+          <div class="lb-sub">
+            ${p.bet}${p.label ? ' · ' + p.label : ''}
+          </div>
+        </div>
+        <div class="lb-right">
+          <span class="status-dot ${p.dot}"></span>
+          <div class="pts-pill">${p.rawPts} очк.</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* — Bets — */
+function renderBets() {
+  const winner = T.tournament_winner || null;
+  const el = document.getElementById('betsGrid');
+  el.className = 'bets-grid';
+  el.innerHTML = B.participants.map(p => {
+    const { rawPts } = (() => {
+      const { pts } = calcStatus(p.bet);
+      return { rawPts: pts };
+    })();
+    const correct = winner && p.bet === winner;
+    return `
+      <div class="bet-card ${correct?'correct':''}">
+        <div class="bet-flag">${f(p.bet)}</div>
+        <div style="flex:1;min-width:0">
+          <div class="bet-name">${p.name}</div>
+          <div class="bet-team">${correct?'🏆 ':''}${p.bet}</div>
+        </div>
+        ${rawPts > 0 ? `<div class="bet-pts">+${rawPts}</div>` : ''}
+      </div>`;
+  }).join('');
+}
+
+/* — Groups — */
+function renderGroups() {
+  const bettedTeams = new Set(B.participants.map(p => p.bet));
+  const el = document.getElementById('groupsGrid');
+  el.className = 'groups-grid';
+
+  el.innerHTML = Object.entries(T.groups).map(([letter, grp]) => {
+    const sorted = [...grp.teams].sort((a, b) => {
+      if (b.points !== a.points) return b.points - a.points;
+      const gdB = b.gf - b.ga, gdA = a.gf - a.ga;
+      if (gdB !== gdA) return gdB - gdA;
+      return b.gf - a.gf;
+    });
+
+    const rows = sorted.map((team, idx) => {
+      const adv  = idx < 2;
+      const hot  = bettedTeams.has(team.name);
+      const gd   = team.gf - team.ga;
+      const gdStr = gd > 0 ? `+${gd}` : `${gd}`;
+      const played = team.w + team.d + team.l;
+      return `
+        <tr class="${adv?'adv':''}">
+          <td>
+            <div class="team-cell">
+              ${adv ? '<span class="adv-dot"></span>' : '<span class="no-dot"></span>'}
+              <span class="t-flag">${f(team.name)}</span>
+              <span class="t-name ${hot?'hot':''}">${team.name}</span>
+            </div>
+          </td>
+          <td>${played}</td>
+          <td>${team.w}</td>
+          <td>${team.d}</td>
+          <td>${team.l}</td>
+          <td>${team.gf}:${team.ga}</td>
+          <td>${gdStr}</td>
+          <td class="pts-td">${team.points}</td>
+        </tr>`;
+    }).join('');
+
+    return `
+      <div class="grp-card">
+        <div class="grp-head">
+          <div class="grp-letter">${letter}</div>
+          <div class="grp-title">Группа ${letter}</div>
+        </div>
+        <table class="grp-table">
+          <thead>
+            <tr>
+              <th>Команда</th>
+              <th title="Игры">И</th>
+              <th title="Победы">В</th>
+              <th title="Ничьи">Н</th>
+              <th title="Поражения">П</th>
+              <th title="Голы">Г</th>
+              <th title="Разница">±</th>
+              <th title="Очки">О</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  }).join('');
+}
+
+/* ────────────────── INIT ────────────────── */
+loadData();
+</script>
+</body>
+</html>
