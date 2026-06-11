@@ -6,21 +6,12 @@
       "teams": [
         {
           "name": "Mexico",
-          "w": 0,
+          "w": 1,
           "d": 0,
           "l": 0,
-          "gf": 0,
+          "gf": 2,
           "ga": 0,
-          "points": 0
-        },
-        {
-          "name": "South Africa",
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "points": 0
+          "points": 3
         },
         {
           "name": "South Korea",
@@ -38,6 +29,15 @@
           "l": 0,
           "gf": 0,
           "ga": 0,
+          "points": 0
+        },
+        {
+          "name": "South Africa",
+          "w": 0,
+          "d": 0,
+          "l": 1,
+          "gf": 0,
+          "ga": 2,
           "points": 0
         }
       ]
