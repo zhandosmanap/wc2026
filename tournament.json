@@ -15,20 +15,20 @@
         },
         {
           "name": "South Korea",
-          "w": 0,
+          "w": 1,
           "d": 0,
           "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "points": 0
+          "gf": 2,
+          "ga": 1,
+          "points": 3
         },
         {
           "name": "Czech Republic",
           "w": 0,
           "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
+          "l": 1,
+          "gf": 1,
+          "ga": 2,
           "points": 0
         },
         {
