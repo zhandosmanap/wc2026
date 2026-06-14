@@ -85,22 +85,22 @@
     "C": {
       "teams": [
         {
-          "name": "Brazil",
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "points": 0
-        },
-        {
           "name": "Morocco",
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "points": 0
+          "gf": 1,
+          "ga": 1,
+          "points": 1
+        },
+        {
+          "name": "Brazil",
+          "w": 0,
+          "d": 1,
+          "l": 0,
+          "gf": 1,
+          "ga": 1,
+          "points": 1
         },
         {
           "name": "Haiti",
