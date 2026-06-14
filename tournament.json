@@ -85,6 +85,15 @@
     "C": {
       "teams": [
         {
+          "name": "Scotland",
+          "w": 1,
+          "d": 0,
+          "l": 0,
+          "gf": 1,
+          "ga": 0,
+          "points": 3
+        },
+        {
           "name": "Morocco",
           "w": 0,
           "d": 1,
@@ -106,18 +115,9 @@
           "name": "Haiti",
           "w": 0,
           "d": 0,
-          "l": 0,
+          "l": 1,
           "gf": 0,
-          "ga": 0,
-          "points": 0
-        },
-        {
-          "name": "Scotland",
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
+          "ga": 1,
           "points": 0
         }
       ]
@@ -135,20 +135,20 @@
         },
         {
           "name": "Australia",
-          "w": 0,
+          "w": 1,
           "d": 0,
           "l": 0,
-          "gf": 0,
+          "gf": 2,
           "ga": 0,
-          "points": 0
+          "points": 3
         },
         {
           "name": "Turkey",
           "w": 0,
           "d": 0,
-          "l": 0,
+          "l": 1,
           "gf": 0,
-          "ga": 0,
+          "ga": 2,
           "points": 0
         },
         {
