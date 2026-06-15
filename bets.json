@@ -2,23 +2,25 @@
   "prize_pool": {
     "per_person": 5000,
     "currency": "₸",
-    "total": 70000
+    "total": 80000
   },
   "participants": [
-    { "name": "Мадина",           "bet": "Spain" },
-    { "name": "Кирилл",           "bet": "France" },
-    { "name": "Сабина",           "bet": "Argentina" },
-    { "name": "Андрей",           "bet": "Portugal" },
-    { "name": "Юрий",             "bet": "Switzerland" },
-    { "name": "Таня",             "bet": "England" },
-    { "name": "Айгуль",           "bet": "Spain" },
-    { "name": "Аружан",           "bet": "England" },
-    { "name": "Ернар",            "bet": "France" },
-    { "name": "Жандос",           "bet": "Brazil" },
-    { "name": "Ильмира",          "bet": "Netherlands" },
-    { "name": "Аня",              "bet": "Portugal" },
-    { "name": "Азиза",            "bet": "Spain" },
-    { "name": "Леонид Алексеевич","bet": "Argentina" }
+    { "name": "Мадина",            "bet": "Spain" },
+    { "name": "Кирилл",            "bet": "France" },
+    { "name": "Сабина",            "bet": "Argentina" },
+    { "name": "Андрей",            "bet": "Portugal" },
+    { "name": "Юрий",              "bet": "Switzerland" },
+    { "name": "Таня",              "bet": "England" },
+    { "name": "Айгуль",            "bet": "Spain" },
+    { "name": "Аружан",            "bet": "England" },
+    { "name": "Ернар",             "bet": "France" },
+    { "name": "Жандос",            "bet": "Brazil" },
+    { "name": "Ильмира",           "bet": "Netherlands" },
+    { "name": "Аня",               "bet": "Portugal" },
+    { "name": "Азиза",             "bet": "Spain" },
+    { "name": "Леонид Алексеевич", "bet": "Argentina" },
+    { "name": "Трещук А.",         "bet": "Brazil" },
+    { "name": "Юлия",              "bet": "Germany" }
   ],
   "tournament_winner": null
 }

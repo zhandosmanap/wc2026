@@ -182,6 +182,31 @@
     .bet-card.correct .bet-team { color:var(--green); }
     .bet-pts  { margin-left:auto; font-weight:700; font-size:13px; color:var(--gold2); }
 
+    /* ── PTS PROJECTED ── */
+    .pts-proj { border-color:rgba(201,162,39,.4); color:var(--gold); font-style:italic; }
+
+    /* ── BETS LIST ── */
+    .bets-list { display:flex; flex-direction:column; gap:8px; margin-bottom:32px; }
+    .brow {
+      display:flex; align-items:center; gap:12px;
+      background:var(--bg3); border:1px solid var(--border);
+      border-radius:12px; padding:12px 16px; transition:all .18s;
+    }
+    .brow:hover { border-color:var(--border2); }
+    .bcorrect { border-color:var(--green); background:var(--green-bg); }
+    .brow-rank { width:22px; font-size:13px; font-weight:700; color:var(--t3); flex-shrink:0; text-align:center; }
+    .brow-flag { font-size:22px; flex-shrink:0; }
+    .brow-info { flex:1; min-width:0; }
+    .brow-name { font-weight:600; font-size:14px; }
+    .brow-team { color:var(--t2); font-size:12px; margin-top:2px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .brow-payout { color:var(--t3); font-size:11px; }
+    .bcorrect .brow-team { color:var(--green); }
+    .brow-prob-wrap { flex-shrink:0; width:90px; text-align:right; }
+    .brow-prob-val { font-size:16px; font-weight:800; margin-bottom:4px; }
+    .brow-prob-bar { height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+    .brow-prob-fill { height:100%; border-radius:2px; transition:width .4s; }
+    .brow-prob-label { font-size:10px; color:var(--t3); margin-top:3px; }
+
     /* groups section subtitle */
     .groups-note { color:var(--t2); font-size:12px; margin-bottom:16px; }
     .groups-note span { color:var(--blue); font-weight:600; }
@@ -419,31 +444,59 @@ async function loadData() {
 }
 
 /* ────────────────── SCORING ────────────────── */
+function sortedGroup(teams) {
+  return [...teams].sort((a, b) => {
+    if (b.points !== a.points) return b.points - a.points;
+    const gdB = b.gf - b.ga, gdA = a.gf - a.ga;
+    if (gdB !== gdA) return gdB - gdA;
+    return b.gf - a.gf;
+  });
+}
+
 function calcStatus(teamName) {
   for (const [, grp] of Object.entries(T.groups)) {
     const team = grp.teams.find(t => t.name === teamName);
     if (!team) continue;
     const played = team.w + team.d + team.l;
-    const sorted = [...grp.teams].sort((a, b) => {
-      if (b.points !== a.points) return b.points - a.points;
-      const gdB = b.gf - b.ga, gdA = a.gf - a.ga;
-      if (gdB !== gdA) return gdB - gdA;
-      return b.gf - a.gf;
-    });
+    const sorted = sortedGroup(grp.teams);
     const pos = sorted.findIndex(t => t.name === teamName); // 0-indexed
+
+    if (played === 0) {
+      return { pts: 0, confirmed: false, label: 'Ещё не играл', dot: 'dot-none' };
+    }
     if (played === 3) {
-      if (pos === 0) return { pts: 3, label: '1-е место в группе', dot: 'dot-win' };
-      if (pos === 1) return { pts: 1, label: 'Вышел из группы',   dot: 'dot-adv' };
-      return { pts: 0, label: 'Вылетел в группе', dot: 'dot-none' };
+      // Группа завершена — очки подтверждены
+      if (pos === 0) return { pts: 3, confirmed: true,  label: '1-е место в группе ✓', dot: 'dot-win' };
+      if (pos === 1) return { pts: 1, confirmed: true,  label: 'Вышел из группы ✓',    dot: 'dot-adv' };
+      return               { pts: 0, confirmed: true,  label: 'Вылетел в группе',      dot: 'dot-none' };
     }
-    if (played > 0) {
-      if (pos === 0) return { pts: 0, label: 'Лидирует в группе', dot: 'dot-lead' };
-      if (pos === 1) return { pts: 0, label: 'В топ-2 группы',    dot: 'dot-adv' };
-      return { pts: 0, label: 'В нижней части группы', dot: 'dot-none' };
-    }
-    return { pts: 0, label: 'Ещё не играл', dot: 'dot-none' };
+    // Группа в процессе — показываем текущие очки как «прогноз»
+    if (pos === 0) return { pts: 3, confirmed: false, label: 'Лидирует в группе', dot: 'dot-lead' };
+    if (pos === 1) return { pts: 1, confirmed: false, label: 'В топ-2 группы',   dot: 'dot-adv' };
+    return               { pts: 0, confirmed: false, label: 'Отстаёт в группе',  dot: 'dot-none' };
   }
-  return { pts: 0, label: '', dot: 'dot-none' };
+  return { pts: 0, confirmed: false, label: '', dot: 'dot-none' };
+}
+
+// Вероятность выхода из группы (%) по текущей позиции и числу сыгранных матчей
+function calcProb(teamName) {
+  for (const [, grp] of Object.entries(T.groups)) {
+    const team = grp.teams.find(t => t.name === teamName);
+    if (!team) continue;
+    const played = team.w + team.d + team.l;
+    const sorted = sortedGroup(grp.teams);
+    const pos = sorted.findIndex(t => t.name === teamName);
+
+    if (played === 0) return 50;
+    if (played === 3) return pos < 2 ? 100 : 0;
+    // В процессе: оценка по позиции и числу игр
+    const TABLE = [
+      [80, 58, 28,  8],  // after 1 game: [1st, 2nd, 3rd, 4th]
+      [92, 72, 22,  5],  // after 2 games
+    ];
+    return TABLE[played - 1][pos] ?? 50;
+  }
+  return 50;
 }
 
 /* ────────────────── RENDER ────────────────── */
@@ -514,13 +567,14 @@ function renderLeaderboard() {
 
   // Build list
   const list = B.participants.map(p => {
-    const { pts, label, dot } = calcStatus(p.bet);
+    const { pts, confirmed, label, dot } = calcStatus(p.bet);
     const isChamp = winner && p.bet === winner;
-    return { ...p, pts: isChamp ? pts + 100 : pts, rawPts: pts, label, dot, isChamp, flag: f(p.bet) };
+    return { ...p, pts, confirmed, label, dot, isChamp, flag: f(p.bet) };
   });
   list.sort((a, b) => {
     if (b.isChamp !== a.isChamp) return b.isChamp ? 1 : -1;
-    return b.rawPts - a.rawPts;
+    if (b.pts !== a.pts) return b.pts - a.pts;
+    return calcProb(b.bet) - calcProb(a.bet);
   });
 
   const el = document.getElementById('lbList');
@@ -529,19 +583,21 @@ function renderLeaderboard() {
     const rank = i + 1;
     const rc = rank===1?'r1':rank===2?'r2':rank===3?'r3':'';
     const bc = rank<=3 ? '' : 'def';
+    const ptsLabel = p.pts > 0
+      ? (p.confirmed ? `${p.pts} очк.` : `~${p.pts} очк.`)
+      : '0 очк.';
+    const ptsTitle = p.confirmed ? '' : 'title="Прогноз по текущей позиции"';
     return `
       <div class="lb-item ${rc} ${p.isChamp?'champ':''}">
         <div class="rank-badge ${bc}">${rank}</div>
         <div class="lb-flag">${p.flag}</div>
         <div style="flex:1;min-width:0">
           <div class="lb-name">${p.name}</div>
-          <div class="lb-sub">
-            ${p.bet}${p.label ? ' · ' + p.label : ''}
-          </div>
+          <div class="lb-sub">${p.bet}${p.label ? ' · ' + p.label : ''}</div>
         </div>
         <div class="lb-right">
           <span class="status-dot ${p.dot}"></span>
-          <div class="pts-pill">${p.rawPts} очк.</div>
+          <div class="pts-pill ${p.pts>0&&!p.confirmed?'pts-proj':''}" ${ptsTitle}>${ptsLabel}</div>
         </div>
       </div>`;
   }).join('');
@@ -551,21 +607,43 @@ function renderLeaderboard() {
 function renderBets() {
   const winner = T.tournament_winner || null;
   const el = document.getElementById('betsGrid');
-  el.className = 'bets-grid';
-  el.innerHTML = B.participants.map(p => {
-    const { rawPts } = (() => {
-      const { pts } = calcStatus(p.bet);
-      return { rawPts: pts };
-    })();
-    const correct = winner && p.bet === winner;
+  el.className = 'bets-list';
+
+  // Группируем участников по команде для расчёта выплаты
+  const pp = B.prize_pool || { total: 80000, currency: '₸' };
+  const teamCount = {};
+  B.participants.forEach(p => { teamCount[p.bet] = (teamCount[p.bet]||0) + 1; });
+
+  // Строим список с вероятностью, сортируем по убыванию
+  const items = B.participants.map(p => ({
+    ...p,
+    prob: calcProb(p.bet),
+    correct: winner && p.bet === winner,
+    payout: Math.floor(pp.total / teamCount[p.bet]),
+  }));
+  items.sort((a, b) => b.prob - a.prob);
+
+  el.innerHTML = items.map((p, i) => {
+    const prob = p.prob;
+    const barColor = prob >= 70 ? 'var(--green)' : prob >= 40 ? 'var(--gold)' : 'var(--t3)';
+    const rank = i + 1;
     return `
-      <div class="bet-card ${correct?'correct':''}">
-        <div class="bet-flag">${f(p.bet)}</div>
-        <div style="flex:1;min-width:0">
-          <div class="bet-name">${p.name}</div>
-          <div class="bet-team">${correct?'🏆 ':''}${p.bet}</div>
+      <div class="brow ${p.correct?'bcorrect':''}">
+        <div class="brow-rank">${rank}</div>
+        <div class="brow-flag">${f(p.bet)}</div>
+        <div class="brow-info">
+          <div class="brow-name">${p.name}</div>
+          <div class="brow-team">${p.correct?'🏆 ':''}${p.bet}
+            <span class="brow-payout">при победе: ${p.payout.toLocaleString('ru-RU')} ${pp.currency}</span>
+          </div>
         </div>
-        ${rawPts > 0 ? `<div class="bet-pts">+${rawPts}</div>` : ''}
+        <div class="brow-prob-wrap">
+          <div class="brow-prob-val" style="color:${barColor}">${prob}%</div>
+          <div class="brow-prob-bar">
+            <div class="brow-prob-fill" style="width:${prob}%;background:${barColor}"></div>
+          </div>
+          <div class="brow-prob-label">выход из группы</div>
+        </div>
       </div>`;
   }).join('');
 }
