@@ -287,20 +287,20 @@
         {
           "name": "Spain",
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 0,
           "gf": 0,
           "ga": 0,
-          "points": 0
+          "points": 1
         },
         {
           "name": "Cape Verde",
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 0,
           "gf": 0,
           "ga": 0,
-          "points": 0
+          "points": 1
         },
         {
           "name": "Saudi Arabia",
