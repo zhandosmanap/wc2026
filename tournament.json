@@ -175,20 +175,20 @@
         },
         {
           "name": "Ivory Coast",
-          "w": 0,
+          "w": 1,
           "d": 0,
           "l": 0,
-          "gf": 0,
+          "gf": 1,
           "ga": 0,
-          "points": 0
+          "points": 3
         },
         {
           "name": "Ecuador",
           "w": 0,
           "d": 0,
-          "l": 0,
+          "l": 1,
           "gf": 0,
-          "ga": 0,
+          "ga": 1,
           "points": 0
         },
         {
@@ -204,6 +204,15 @@
     },
     "F": {
       "teams": [
+        {
+          "name": "Sweden",
+          "w": 1,
+          "d": 0,
+          "l": 0,
+          "gf": 5,
+          "ga": 1,
+          "points": 3
+        },
         {
           "name": "Japan",
           "w": 0,
@@ -226,18 +235,9 @@
           "name": "Tunisia",
           "w": 0,
           "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "points": 0
-        },
-        {
-          "name": "Sweden",
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
+          "l": 1,
+          "gf": 1,
+          "ga": 5,
           "points": 0
         }
       ]
