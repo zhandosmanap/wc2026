@@ -325,6 +325,15 @@
     "I": {
       "teams": [
         {
+          "name": "Norway",
+          "w": 1,
+          "d": 0,
+          "l": 0,
+          "gf": 4,
+          "ga": 1,
+          "points": 3
+        },
+        {
           "name": "France",
           "w": 1,
           "d": 0,
@@ -334,30 +343,21 @@
           "points": 3
         },
         {
-          "name": "Norway",
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "points": 0
-        },
-        {
-          "name": "Iraq",
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "points": 0
-        },
-        {
           "name": "Senegal",
           "w": 0,
           "d": 0,
           "l": 1,
           "gf": 1,
           "ga": 3,
+          "points": 0
+        },
+        {
+          "name": "Iraq",
+          "w": 0,
+          "d": 0,
+          "l": 1,
+          "gf": 1,
+          "ga": 4,
           "points": 0
         }
       ]
