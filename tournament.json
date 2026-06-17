@@ -446,21 +446,12 @@
       "teams": [
         {
           "name": "England",
-          "w": 0,
+          "w": 1,
           "d": 0,
           "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "points": 0
-        },
-        {
-          "name": "Croatia",
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "points": 0
+          "gf": 4,
+          "ga": 2,
+          "points": 3
         },
         {
           "name": "Ghana",
@@ -478,6 +469,15 @@
           "l": 0,
           "gf": 0,
           "ga": 0,
+          "points": 0
+        },
+        {
+          "name": "Croatia",
+          "w": 0,
+          "d": 0,
+          "l": 1,
+          "gf": 2,
+          "ga": 4,
           "points": 0
         }
       ]
