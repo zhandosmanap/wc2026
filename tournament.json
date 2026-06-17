@@ -366,38 +366,38 @@
       "teams": [
         {
           "name": "Argentina",
-          "w": 0,
+          "w": 1,
           "d": 0,
           "l": 0,
-          "gf": 0,
+          "gf": 3,
           "ga": 0,
+          "points": 3
+        },
+        {
+          "name": "Austria",
+          "w": 1,
+          "d": 0,
+          "l": 0,
+          "gf": 3,
+          "ga": 1,
+          "points": 3
+        },
+        {
+          "name": "Jordan",
+          "w": 0,
+          "d": 0,
+          "l": 1,
+          "gf": 1,
+          "ga": 3,
           "points": 0
         },
         {
           "name": "Algeria",
           "w": 0,
           "d": 0,
-          "l": 0,
+          "l": 1,
           "gf": 0,
-          "ga": 0,
-          "points": 0
-        },
-        {
-          "name": "Austria",
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "points": 0
-        },
-        {
-          "name": "Jordan",
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
+          "ga": 3,
           "points": 0
         }
       ]
