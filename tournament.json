@@ -46,21 +46,12 @@
       "teams": [
         {
           "name": "Switzerland",
-          "w": 0,
+          "w": 1,
           "d": 1,
           "l": 0,
-          "gf": 1,
-          "ga": 1,
-          "points": 1
-        },
-        {
-          "name": "Bosnia and Herzegovina",
-          "w": 0,
-          "d": 1,
-          "l": 0,
-          "gf": 1,
-          "ga": 1,
-          "points": 1
+          "gf": 5,
+          "ga": 2,
+          "points": 4
         },
         {
           "name": "Canada",
@@ -78,6 +69,15 @@
           "l": 0,
           "gf": 1,
           "ga": 1,
+          "points": 1
+        },
+        {
+          "name": "Bosnia and Herzegovina",
+          "w": 0,
+          "d": 1,
+          "l": 1,
+          "gf": 2,
+          "ga": 5,
           "points": 1
         }
       ]
