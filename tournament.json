@@ -25,20 +25,20 @@
         {
           "name": "Czech Republic",
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 1,
-          "gf": 1,
-          "ga": 2,
-          "points": 0
+          "gf": 2,
+          "ga": 3,
+          "points": 1
         },
         {
           "name": "South Africa",
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 1,
-          "gf": 0,
-          "ga": 2,
-          "points": 0
+          "gf": 1,
+          "ga": 3,
+          "points": 1
         }
       ]
     },
