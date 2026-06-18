@@ -405,6 +405,15 @@
     "K": {
       "teams": [
         {
+          "name": "Colombia",
+          "w": 1,
+          "d": 0,
+          "l": 0,
+          "gf": 3,
+          "ga": 1,
+          "points": 3
+        },
+        {
           "name": "DR Congo",
           "w": 0,
           "d": 1,
@@ -426,18 +435,9 @@
           "name": "Uzbekistan",
           "w": 0,
           "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "points": 0
-        },
-        {
-          "name": "Colombia",
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
+          "l": 1,
+          "gf": 1,
+          "ga": 3,
           "points": 0
         }
       ]
