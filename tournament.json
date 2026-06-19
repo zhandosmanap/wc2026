@@ -6,20 +6,20 @@
       "teams": [
         {
           "name": "Mexico",
-          "w": 1,
+          "w": 2,
           "d": 0,
           "l": 0,
-          "gf": 2,
+          "gf": 3,
           "ga": 0,
-          "points": 3
+          "points": 6
         },
         {
           "name": "South Korea",
           "w": 1,
           "d": 0,
-          "l": 0,
+          "l": 1,
           "gf": 2,
-          "ga": 1,
+          "ga": 2,
           "points": 3
         },
         {
