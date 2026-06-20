@@ -85,22 +85,22 @@
     "C": {
       "teams": [
         {
+          "name": "Morocco",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 2,
+          "ga": 1,
+          "points": 4
+        },
+        {
           "name": "Scotland",
           "w": 1,
           "d": 0,
-          "l": 0,
-          "gf": 1,
-          "ga": 0,
-          "points": 3
-        },
-        {
-          "name": "Morocco",
-          "w": 0,
-          "d": 1,
-          "l": 0,
+          "l": 1,
           "gf": 1,
           "ga": 1,
-          "points": 1
+          "points": 3
         },
         {
           "name": "Brazil",
