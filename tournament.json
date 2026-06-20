@@ -166,20 +166,20 @@
       "teams": [
         {
           "name": "Germany",
-          "w": 1,
+          "w": 2,
           "d": 0,
           "l": 0,
-          "gf": 7,
-          "ga": 1,
-          "points": 3
+          "gf": 9,
+          "ga": 2,
+          "points": 6
         },
         {
           "name": "Ivory Coast",
           "w": 1,
           "d": 0,
-          "l": 0,
-          "gf": 1,
-          "ga": 0,
+          "l": 1,
+          "gf": 2,
+          "ga": 2,
           "points": 3
         },
         {
