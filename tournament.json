@@ -205,25 +205,25 @@
     "F": {
       "teams": [
         {
+          "name": "Netherlands",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 7,
+          "ga": 3,
+          "points": 4
+        },
+        {
           "name": "Sweden",
           "w": 1,
           "d": 0,
-          "l": 0,
-          "gf": 5,
-          "ga": 1,
+          "l": 1,
+          "gf": 6,
+          "ga": 6,
           "points": 3
         },
         {
           "name": "Japan",
-          "w": 0,
-          "d": 1,
-          "l": 0,
-          "gf": 2,
-          "ga": 2,
-          "points": 1
-        },
-        {
-          "name": "Netherlands",
           "w": 0,
           "d": 1,
           "l": 0,
