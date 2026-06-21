@@ -285,6 +285,15 @@
     "H": {
       "teams": [
         {
+          "name": "Spain",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 4,
+          "ga": 0,
+          "points": 4
+        },
+        {
           "name": "Uruguay",
           "w": 0,
           "d": 1,
@@ -294,30 +303,21 @@
           "points": 1
         },
         {
-          "name": "Saudi Arabia",
-          "w": 0,
-          "d": 1,
-          "l": 0,
-          "gf": 1,
-          "ga": 1,
-          "points": 1
-        },
-        {
-          "name": "Spain",
-          "w": 0,
-          "d": 1,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "points": 1
-        },
-        {
           "name": "Cape Verde",
           "w": 0,
           "d": 1,
           "l": 0,
           "gf": 0,
           "ga": 0,
+          "points": 1
+        },
+        {
+          "name": "Saudi Arabia",
+          "w": 0,
+          "d": 1,
+          "l": 1,
+          "gf": 1,
+          "ga": 5,
           "points": 1
         }
       ]
