@@ -245,6 +245,15 @@
     "G": {
       "teams": [
         {
+          "name": "Egypt",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 4,
+          "ga": 2,
+          "points": 4
+        },
+        {
           "name": "Iran",
           "w": 0,
           "d": 2,
@@ -266,18 +275,9 @@
           "name": "New Zealand",
           "w": 0,
           "d": 1,
-          "l": 0,
-          "gf": 2,
-          "ga": 2,
-          "points": 1
-        },
-        {
-          "name": "Egypt",
-          "w": 0,
-          "d": 1,
-          "l": 0,
-          "gf": 1,
-          "ga": 1,
+          "l": 1,
+          "gf": 3,
+          "ga": 5,
           "points": 1
         }
       ]
@@ -296,20 +296,20 @@
         {
           "name": "Uruguay",
           "w": 0,
-          "d": 1,
+          "d": 2,
           "l": 0,
-          "gf": 1,
-          "ga": 1,
-          "points": 1
+          "gf": 3,
+          "ga": 3,
+          "points": 2
         },
         {
           "name": "Cape Verde",
           "w": 0,
-          "d": 1,
+          "d": 2,
           "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "points": 1
+          "gf": 2,
+          "ga": 2,
+          "points": 2
         },
         {
           "name": "Saudi Arabia",
