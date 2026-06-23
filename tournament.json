@@ -447,20 +447,20 @@
         {
           "name": "England",
           "w": 1,
-          "d": 0,
+          "d": 1,
           "l": 0,
           "gf": 4,
           "ga": 2,
-          "points": 3
+          "points": 4
         },
         {
           "name": "Ghana",
           "w": 1,
-          "d": 0,
+          "d": 1,
           "l": 0,
           "gf": 1,
           "ga": 0,
-          "points": 3
+          "points": 4
         },
         {
           "name": "Panama",
