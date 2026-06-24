@@ -405,6 +405,15 @@
     "K": {
       "teams": [
         {
+          "name": "Colombia",
+          "w": 2,
+          "d": 0,
+          "l": 0,
+          "gf": 4,
+          "ga": 1,
+          "points": 6
+        },
+        {
           "name": "Portugal",
           "w": 1,
           "d": 1,
@@ -414,21 +423,12 @@
           "points": 4
         },
         {
-          "name": "Colombia",
-          "w": 1,
-          "d": 0,
-          "l": 0,
-          "gf": 3,
-          "ga": 1,
-          "points": 3
-        },
-        {
           "name": "DR Congo",
           "w": 0,
           "d": 1,
-          "l": 0,
+          "l": 1,
           "gf": 1,
-          "ga": 1,
+          "ga": 2,
           "points": 1
         },
         {
