@@ -45,39 +45,39 @@
     "B": {
       "teams": [
         {
-          "name": "Canada",
-          "w": 1,
+          "name": "Switzerland",
+          "w": 2,
           "d": 1,
           "l": 0,
           "gf": 7,
-          "ga": 1,
-          "points": 4
+          "ga": 3,
+          "points": 7
         },
         {
-          "name": "Switzerland",
+          "name": "Canada",
           "w": 1,
           "d": 1,
-          "l": 0,
-          "gf": 5,
-          "ga": 2,
+          "l": 1,
+          "gf": 8,
+          "ga": 3,
           "points": 4
         },
         {
           "name": "Bosnia and Herzegovina",
-          "w": 0,
+          "w": 1,
           "d": 1,
           "l": 1,
-          "gf": 2,
-          "ga": 5,
-          "points": 1
+          "gf": 5,
+          "ga": 6,
+          "points": 4
         },
         {
           "name": "Qatar",
           "w": 0,
           "d": 1,
-          "l": 1,
-          "gf": 1,
-          "ga": 7,
+          "l": 2,
+          "gf": 2,
+          "ga": 10,
           "points": 1
         }
       ]
