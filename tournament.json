@@ -6,38 +6,38 @@
       "teams": [
         {
           "name": "Mexico",
-          "w": 2,
+          "w": 3,
           "d": 0,
           "l": 0,
-          "gf": 3,
+          "gf": 6,
           "ga": 0,
-          "points": 6
+          "points": 9
+        },
+        {
+          "name": "South Africa",
+          "w": 1,
+          "d": 1,
+          "l": 1,
+          "gf": 2,
+          "ga": 3,
+          "points": 4
         },
         {
           "name": "South Korea",
           "w": 1,
           "d": 0,
-          "l": 1,
+          "l": 2,
           "gf": 2,
-          "ga": 2,
+          "ga": 3,
           "points": 3
         },
         {
           "name": "Czech Republic",
           "w": 0,
           "d": 1,
-          "l": 1,
+          "l": 2,
           "gf": 2,
-          "ga": 3,
-          "points": 1
-        },
-        {
-          "name": "South Africa",
-          "w": 0,
-          "d": 1,
-          "l": 1,
-          "gf": 1,
-          "ga": 3,
+          "ga": 6,
           "points": 1
         }
       ]
