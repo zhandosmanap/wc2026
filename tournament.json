@@ -326,20 +326,20 @@
       "teams": [
         {
           "name": "France",
-          "w": 2,
+          "w": 3,
           "d": 0,
           "l": 0,
-          "gf": 6,
-          "ga": 1,
-          "points": 6
+          "gf": 10,
+          "ga": 2,
+          "points": 9
         },
         {
           "name": "Norway",
           "w": 2,
           "d": 0,
-          "l": 0,
-          "gf": 7,
-          "ga": 3,
+          "l": 1,
+          "gf": 8,
+          "ga": 7,
           "points": 6
         },
         {
