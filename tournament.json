@@ -128,37 +128,37 @@
           "name": "USA",
           "w": 2,
           "d": 0,
-          "l": 0,
-          "gf": 6,
-          "ga": 1,
+          "l": 1,
+          "gf": 8,
+          "ga": 4,
           "points": 6
         },
         {
           "name": "Australia",
           "w": 1,
-          "d": 0,
+          "d": 1,
           "l": 1,
           "gf": 2,
           "ga": 2,
-          "points": 3
+          "points": 4
         },
         {
           "name": "Paraguay",
           "w": 1,
-          "d": 0,
+          "d": 1,
           "l": 1,
           "gf": 2,
           "ga": 4,
-          "points": 3
+          "points": 4
         },
         {
           "name": "Turkey",
-          "w": 0,
+          "w": 1,
           "d": 0,
           "l": 2,
-          "gf": 0,
-          "ga": 3,
-          "points": 0
+          "gf": 3,
+          "ga": 5,
+          "points": 3
         }
       ]
     },
