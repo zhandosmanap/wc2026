@@ -344,20 +344,20 @@
         },
         {
           "name": "Senegal",
-          "w": 0,
+          "w": 1,
           "d": 0,
           "l": 2,
-          "gf": 3,
+          "gf": 8,
           "ga": 6,
-          "points": 0
+          "points": 3
         },
         {
           "name": "Iraq",
           "w": 0,
           "d": 0,
-          "l": 2,
+          "l": 3,
           "gf": 1,
-          "ga": 7,
+          "ga": 12,
           "points": 0
         }
       ]
