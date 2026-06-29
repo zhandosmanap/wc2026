@@ -300,6 +300,77 @@
       .prize-per-note  { display:none; }
     }
 
+    /* ── PLAYOFF BRACKET ── */
+    .bracket-wrap {
+      overflow-x:auto; padding-bottom:16px;
+    }
+    .bracket {
+      display:flex; gap:0; min-width:900px;
+      align-items:center;
+    }
+    .bracket-round {
+      display:flex; flex-direction:column; flex:1;
+    }
+    .bracket-round-title {
+      text-align:center; font-size:11px; font-weight:700;
+      letter-spacing:1.5px; text-transform:uppercase;
+      color:var(--t3); padding:0 6px 12px;
+    }
+    .bracket-matches {
+      display:flex; flex-direction:column; flex:1;
+    }
+    .bracket-spacer { flex:1; }
+    .bracket-match-wrap {
+      display:flex; flex-direction:column; justify-content:center; flex:1;
+      position:relative;
+    }
+    /* right connector line going to next round */
+    .bracket-match-wrap::after {
+      content:''; position:absolute;
+      right:0; top:50%; width:6px; height:1px;
+      background:var(--border2);
+    }
+    /* top half: line from bottom of top-match + left connecting bar */
+    .connector-top::before, .connector-bot::before {
+      content:''; position:absolute;
+      left:0; width:6px;
+      background:var(--border2);
+    }
+    .connector-top::before { top:50%; bottom:0; height:calc(50% + 1px); border-right:1px solid var(--border2); }
+    .connector-bot::before  { top:0; height:50%; border-right:1px solid var(--border2); }
+
+    .bracket-match {
+      background:var(--bg3); border:1px solid var(--border);
+      border-radius:8px; overflow:hidden;
+      margin:0 6px;
+    }
+    .b-team {
+      display:flex; align-items:center; gap:7px;
+      padding:7px 10px; font-size:12px;
+      border-bottom:1px solid rgba(26,46,74,.5);
+      min-height:34px; position:relative;
+    }
+    .b-team:last-child { border-bottom:none; }
+    .b-team.winner { background:rgba(34,197,94,.09); color:var(--green); font-weight:700; }
+    .b-team.betted {
+      background:rgba(201,162,39,.08);
+      border-left:2px solid var(--gold);
+    }
+    .b-team.betted.winner { background:rgba(34,197,94,.14); border-left-color:var(--green); }
+    .b-flag { flex-shrink:0; }
+    .b-name { flex:1; font-weight:500; }
+    .b-bettors { font-size:10px; color:var(--gold); font-weight:600; margin-left:4px; flex-shrink:0; }
+    .b-score {
+      font-size:13px; font-weight:800; color:var(--t1);
+      background:var(--bg2); padding:2px 7px; border-radius:4px;
+      min-width:22px; text-align:center; flex-shrink:0;
+    }
+    .b-score.win { color:var(--green); }
+    .b-tbd { color:var(--t3); font-style:italic; font-size:11px; }
+    .b-date { font-size:10px; color:var(--t3); text-align:center; padding:3px 6px 0; }
+    .bracket-final .bracket-match { border-color:var(--gold); }
+    .bracket-final .bracket-match-wrap::after { display:none; }
+
     /* ── LOADING / ERROR ── */
     .msg { text-align:center; padding:44px; color:var(--t3); font-size:14px; }
 
@@ -323,6 +394,7 @@
   <button class="nav-btn active" data-section="leaderboard">🏆 Лидерборд</button>
   <button class="nav-btn"        data-section="bets">🎯 Ставки</button>
   <button class="nav-btn"        data-section="groups">📊 Группы</button>
+  <button class="nav-btn"        data-section="playoff">🏟️ Плей-офф</button>
 </nav>
 
 <main>
@@ -358,6 +430,24 @@
     </div>
     <div class="stitle">🎯 Ставки коллег</div>
     <div class="bets-grid msg" id="betsGrid">Загрузка…</div>
+  </section>
+
+  <!-- PLAYOFF -->
+  <section id="playoff" class="section">
+    <div class="refresh-row">
+      <button class="refresh-btn" onclick="loadData()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+        </svg>
+        Обновить
+      </button>
+    </div>
+    <div class="stitle">🏟️ Турнирная сетка плей-офф</div>
+    <p class="groups-note">
+      <b style="color:var(--gold)">Золотая рамка</b> — команда, на которую сделана ставка (в скобках — кто ставил)
+    </p>
+    <div class="bracket-wrap" id="playoffBracket"><div class="msg">Загрузка…</div></div>
   </section>
 
   <!-- GROUPS -->
@@ -521,6 +611,7 @@ function render() {
   renderLeaderboard();
   renderBets();
   renderGroups();
+  renderPlayoff();
 }
 
 /* — Leaderboard — */
@@ -726,6 +817,100 @@ function renderGroups() {
         </table>
       </div>`;
   }).join('');
+}
+
+/* — Playoff Bracket — */
+function renderPlayoff() {
+  const el = document.getElementById('playoffBracket');
+  if (!T.playoff) { el.innerHTML = '<div class="msg">Данные плей-офф недоступны</div>'; return; }
+
+  // Карта: команда → список имён ставивших
+  const betMap = {};
+  B.participants.forEach(p => {
+    if (!betMap[p.bet]) betMap[p.bet] = [];
+    betMap[p.bet].push(p.name.split(' ')[0]); // короткое имя
+  });
+
+  function winner(m) {
+    if (!m.score) return null;
+    if (m.score[0] > m.score[1]) return m.home;
+    if (m.score[1] > m.score[0]) return m.away;
+    return null; // ничья/пенальти — не определяем
+  }
+
+  function teamRow(name, scoreVal, isWinner) {
+    if (!name) return `<div class="b-team"><span class="b-tbd">TBD</span></div>`;
+    const bettors = betMap[name];
+    const betted  = !!bettors;
+    const betStr  = bettors ? `(${bettors.join(', ')})` : '';
+    const scoreHtml = scoreVal !== null && scoreVal !== undefined
+      ? `<span class="b-score ${isWinner?'win':''}">${scoreVal}</span>`
+      : '';
+    return `
+      <div class="b-team ${isWinner?'winner':''} ${betted?'betted':''}">
+        <span class="b-flag">${f(name)}</span>
+        <span class="b-name">${name}</span>
+        ${betted ? `<span class="b-bettors">${betStr}</span>` : ''}
+        ${scoreHtml}
+      </div>`;
+  }
+
+  function matchHtml(m, extraClass) {
+    const w = winner(m);
+    const h = m.home, a = m.away;
+    const sh = m.score ? m.score[0] : null;
+    const sa = m.score ? m.score[1] : null;
+    return `
+      <div class="bracket-match-wrap ${extraClass}">
+        <div class="b-date">${m.date || ''}</div>
+        <div class="bracket-match">
+          ${teamRow(h, sh, w===h)}
+          ${teamRow(a, sa, w===a)}
+        </div>
+      </div>`;
+  }
+
+  const rounds = [
+    { key:'r16',   label:'1/16 финала', cls:'', pairs:[[0,1],[2,3],[4,5],[6,7],[8,9],[10,11],[12,13],[14,15]] },
+    { key:'r8',    label:'1/8 финала',  cls:'', pairs:[[0,1],[2,3],[4,5],[6,7]] },
+    { key:'r4',    label:'1/4 финала',  cls:'', pairs:[[0,1],[2,3]] },
+    { key:'r2',    label:'1/2 финала',  cls:'', pairs:[[0,1]] },
+    { key:'final', label:'Финал',       cls:'bracket-final', pairs:[[0]] },
+  ];
+
+  const html = rounds.map(round => {
+    const matches = T.playoff[round.key] || [];
+    let matchBlocks = '';
+
+    if (round.key === 'final') {
+      matchBlocks = matchHtml(matches[0] || {}, '');
+    } else {
+      // Группируем матчи парами — между ними нет разрыва (они "питают" следующий раунд)
+      round.pairs.forEach(([i1, i2]) => {
+        const m1 = matches[i1] || {};
+        const m2 = matches[i2];
+        if (m2 !== undefined) {
+          matchBlocks += `
+            <div style="display:flex;flex-direction:column;flex:1;">
+              ${matchHtml(m1, 'connector-top')}
+              ${matchHtml(m2, 'connector-bot')}
+            </div>`;
+        } else {
+          matchBlocks += matchHtml(m1, '');
+        }
+      });
+    }
+
+    return `
+      <div class="bracket-round ${round.cls}">
+        <div class="bracket-round-title">${round.label}</div>
+        <div class="bracket-matches" style="display:flex;flex-direction:column;gap:8px;">
+          ${matchBlocks}
+        </div>
+      </div>`;
+  }).join('');
+
+  el.innerHTML = `<div class="bracket">${html}</div>`;
 }
 
 /* ────────────────── INIT ────────────────── */

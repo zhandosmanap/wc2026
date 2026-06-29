@@ -482,5 +482,48 @@
         }
       ]
     }
+  },
+  "playoff": {
+    "r16": [
+      {"id":1,  "home":"Germany",                "away":"Paraguay",            "date":"29.06", "score":[1,0]},
+      {"id":2,  "home":"France",                 "away":"Sweden",              "date":"01.07", "score":null},
+      {"id":3,  "home":"South Africa",           "away":"Canada",              "date":"29.06", "score":[0,1]},
+      {"id":4,  "home":"Netherlands",            "away":"Morocco",             "date":"30.06", "score":null},
+      {"id":5,  "home":"Portugal",               "away":"Croatia",             "date":"03.07", "score":null},
+      {"id":6,  "home":"Spain",                  "away":"Austria",             "date":"02.07", "score":null},
+      {"id":7,  "home":"USA",                    "away":"Bosnia and Herzegovina","date":"02.07","score":null},
+      {"id":8,  "home":"Belgium",                "away":"Senegal",             "date":"01.07", "score":null},
+      {"id":9,  "home":"Brazil",                 "away":"Japan",               "date":"29.06", "score":null},
+      {"id":10, "home":"Ivory Coast",            "away":"Norway",              "date":"30.06", "score":null},
+      {"id":11, "home":"Mexico",                 "away":"Ecuador",             "date":"01.07", "score":null},
+      {"id":12, "home":"England",                "away":"DR Congo",            "date":"01.07", "score":null},
+      {"id":13, "home":"Argentina",              "away":"Cape Verde",          "date":"04.07", "score":null},
+      {"id":14, "home":"Australia",              "away":"Egypt",               "date":"03.07", "score":null},
+      {"id":15, "home":"Switzerland",            "away":"Algeria",             "date":"03.07", "score":null},
+      {"id":16, "home":"South Korea",            "away":"Turkey",              "date":"04.07", "score":null}
+    ],
+    "r8":  [
+      {"id":17, "home":null,"away":null,"date":"05.07","score":null},
+      {"id":18, "home":null,"away":null,"date":"05.07","score":null},
+      {"id":19, "home":null,"away":null,"date":"06.07","score":null},
+      {"id":20, "home":null,"away":null,"date":"06.07","score":null},
+      {"id":21, "home":null,"away":null,"date":"07.07","score":null},
+      {"id":22, "home":null,"away":null,"date":"07.07","score":null},
+      {"id":23, "home":null,"away":null,"date":"08.07","score":null},
+      {"id":24, "home":null,"away":null,"date":"08.07","score":null}
+    ],
+    "r4":  [
+      {"id":25, "home":null,"away":null,"date":"09.07","score":null},
+      {"id":26, "home":null,"away":null,"date":"10.07","score":null},
+      {"id":27, "home":null,"away":null,"date":"12.07","score":null},
+      {"id":28, "home":null,"away":null,"date":"12.07","score":null}
+    ],
+    "r2":  [
+      {"id":29, "home":null,"away":null,"date":"14.07","score":null},
+      {"id":30, "home":null,"away":null,"date":"15.07","score":null}
+    ],
+    "final": [
+      {"id":31, "home":null,"away":null,"date":"19.07","score":null}
+    ]
   }
 }
